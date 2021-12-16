@@ -1,0 +1,115 @@
+---
+title: "InflectSSPVignette"
+author: "Neil McCracken"
+date: "01-October-2021"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{InflectSSPVignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+
+# InflectSSP (Statistics, STRING, PANTHER)
+
+## Introduction
+
+InflectSSP is a function that uses LC-MS data from a Thermal Proteome Profiling (TPP) experiment and user inputs to determine protein melt shifts across the proteome. There are multiple types of TPP experiments but the type that can be analyzed using this InflectSSP function is those where a single type of drug treatment or mutant cell line (Condition) is used with a single type of vehicle or wild type cell line (Control). Biological and technical replicate data sets can be analyzed by this program. These experiments also consist of those where a single gradient heat treatment (i.e. 25, 35, 40, 50, 55, 60) is used across all conditions and controls. The output of this program consists of melt curves for each protein along with summary files that include bioinformatic analysis. The output files are all saved to the Directory folder specified by the user and this is the same folder that the user saves the source input data files. The bioinformatic analysis that is generated includes overlay of melt shift data with STRING and PANTHER based annotations.
+
+## Program inputs
+
+The inputs to the program consist of both MS Excel files along with user specified parameters that are used by the program to include/exclude certain data from the melt shift analysis. Inputs include the following:
+
+  * file inputs
+    * MS Excel based files with .xlsx extension
+    * Control data sets (i.e. vehicle) where each file must be labeled as Control #.xlsx where # is the experiment number. There can be any number of experiment files for the analysis.
+    * Condition data sets (i.e. treatment) where each file must be labeled as Condition #.xlsx where # is the experiment number. There can be any number of experiment files for the analysis.
+    * The columns in each of the files must have the following headers
+      * Column 1: Accession
+      * Column 2: PSM
+      * Column 3: UP
+      * Column 4 and higher: The temperatures that were used in each of the gradients
+    * The data in each row must correspond to the following:
+      * Column 1: The Accession numbers for each protein reported by the search program. These consist of either a single letter followed by five digits or 2 letters followed by 6 digits.
+      * Column 2: The number of peptide spectrum matches (PSM) reported for each protein
+      * Column 3: The number of unique peptides (UP) reported for each protein
+      * Column 4 and higher: The abundance data for each protein and at each temperature in the heat treatment
+  
+  * function inputs
+    * Directory: This consists of the path for the folder where the file inputs are located on the hard drive of the user. An example format for this is as follows: "/Users/Einstein/TPPExperiment"
+    * NControl: This is the number of control data sets to be included in the analysis. Control experiments are those where samples were treated with vehicle or are the wild type cell line. This number must be at least 1 and needs to have the same corresponding number of .xlsx files for every Control experiment.
+    * NCondition: This is the number of Condition data sets to be included in the analysis. Condition experiments are those where samples were treated with drug or are the mutated cell line. This number must be at least 1 and needs to have the same corresponding number of .xlsx files for every Condition experiment.
+    * PSM: This is the number of Peptide Spectrum Matches that will be used by the InflectSSP program to determine whether an identified protein has suitable confidence based on the search algorithm. PSM values in the Control or Condition data files will need to be greater than this criteria for the protein to be considered in the final calculations. The number of PSMs in the raw Control or Condition data files needs to be listed in the second column of the data set.
+    * UP: This is the number of unique peptides that will be used by the InflectSSP program to determine whether an identified protein has suitable confidence based on the search algorithm. UP values in the Control or Condition data files will need to be greater than this criteria for the protein to be considered in the final calculations. The number of UPs in the raw Control or Condition data files needs to be listed in the third column of the data set.
+    * CurveRsq: This value is the minimum acceptable coefficient of determination (R squared) for protein melt curves in the experiment. This number needs to be expressed as a decimal. For example, 0.95 indicates that curves with R squared greater than 0.95 will be considered in melt shift calculations.
+    * PValMelt: This value is the limit for the p-value of melt shifts calculated by the program. Melt shifts with p-values greater than or equal to this value are considered not significant. This value is specified as a decimal. For instance a value of 0.05 means that proteins with melt shifts have a p-value of 0.04 would be considered significant.
+    * MeltLimit: This value is the limit used for the melt shift magnitude. This limit is used to specify which proteins are considered significant in the evaluation. Melts greater than this limit are considered to be significant.
+    * RunSTRING: A Yes or No input that indicates whether or not the STRING network evaluation is conducted by the program workflow.
+    * STRINGScore: This is the STRING confidence score that is used by the program to determine which interactions reported by STRING are significant. This value is expressed as a decimal.
+    * Species: Taxon number for the species. This is used by STRING and PANTHER. Example is 9606 for human.
+    * RunPANTHER: A Yes or No input that indicates whether or not the PANTHER GO term analysis is conducted by the program workflow.
+    * PANTHERpvalue: The decimal that corresponds to the p-value limit specified by PANTHER and which is used by the program to determine which GO terms to report. 
+
+## Program outputs
+
+The program reports the following in a folder titled "Result Files" in the Directory folder specified by the user:
+
+* In a folder titled "Good Fit Curves" the melt curves (condition and control) for each protein that has been reported to have acceptable:
+  * PSMs
+  * UPs
+  * Quality of fit for melt curves as measured by R squared
+* AllMeltShifts.csv. This file contains all melt shifts that pass PSM and UP criteria.
+* AnalysisResults.csv. This file contains data along with calculations for each protein that was identified as having sufficient quantity of PSM and UP
+* GoodQualityMeltShifts.csv: This file contains the melt shifts that pass all criteria entered by the user
+* Melt_vs_Abundance.pdf plot: This is a plot of melt shift vs. abundance for proteins that had good quality melts and met PSM/UP criteria. Red dots are those that are considered to be significant (melt shift p-value, melt shift magnitude) while black dots are those that do not meet these criteria.
+* WaterfallPlot.pdf plot: This is a plot of melt shifts for all proteins that are numbered in order from lowest melt shift to highest melt shift. This plot includes proteins that had good quality melts and met PSM/UP criteria. Red dots are those that are considered to be significant (melt shift p-value, melt shift magnitude) while black dots are those that do not meet these criteria.
+* PANTHER_BP.svg: This file contains an image of a plot that on the y-axis includes Biological Process GO terms that correspond with the significant proteins in the analysis. On the x-axis are the melt shifts for the proteins. Each dot corresponds to a protein. The color of the dot and the intensity of the blue corresponds with the p-value in PANTHER and the size of the dot corresponds with the p-value for the melt shift. Dots that lie further to the right, are larger in diameter and are a darker shade of blue are more significant.
+* PANTHER_CC.svg: This file contains an image of a plot that on the y-axis includes Celluclar Component GO terms that correspond with the significant proteins in the analysis. See The BP description above for meaning of data in the plot.
+* PANTHER_MF.svg: This file contains an image of a plot that on the y-axis includes Molecular Function GO terms that correspond with the significant proteins in the analysis. See The BP description above for meaning of data in the plot.
+* STRINGNetwork.svg: This file contains and image of a network diagram that contains nodes for each protein that was observed to be significant in the analysis pipeline. The lines between each node indicate an interaction or relationship as identified by STRING according to the confidence limits specified by the user. The color of each node corresponds to the melt shift identified by the program.
+
+## General program analysis description
+
+The following functions are run by the InflectSSP function
+
+ * Import: This function imports the mass spec data from the xlsx files. The NControl and NCondition specified by the user set the number of files that are imported.
+ * Normalize: This function normalizes the abundance values for each protein and at each temperature to the abundance at the lowest temperature for each protein.
+ * Quantify: This function determines the median abundance at each temperature across all files in the data sets.
+ * CurveFit1: This function fits the median abundance vs. temperature using a 4 parameter log fit. In the event that the curve fitting function is unable to converge, a 3 parameter log fit is used.
+ * Correction: This function corrects the normalized abundance values for each protein and in each replicate condition or control. The correction factor is first calculated using the actual and predicted values from CurveFit1 function. The correction constants are calculated as follows: (1-((Actual)-Predicted)/((Actual))). The constants are calculated for each temperature and are multiplied by the normalized abundance values for each protein in the data sets.
+ * CurveFit2: This function fits 4 parameter log fit curves for each corrected and normalized abundance value for each protein condition and control. In the event that either there is no convergence for the fit, a 3 parameter log fit is used. In the event that the melt temperature is greater than or less than the lowest or highest temperature in the heat treatment, a 3 parameter log fit is used for the fitting.
+ * MeltCalc: This function calculates the melt temperature for each protein condition and control using the inflection point in the curve. The melt shift is calculated using the melt temperatures for each protein (Condition-Control). The criteria including the p-value for the melt, melt magnitude and quality of fit for the curves is evaluated and documented.
+ * ReportDataMelts: This function reports the melt shift related files
+ * ReportSTRING: This function creates the STRING / melt shift network diagram
+ * ReportPANTHER: This function creates the PANTHER / melt shfit network diagram
+ 
+## Example code for execution of the function
+
+  Directory<-"/Users/Einstein/TPPExperiment"  
+  NControl<-3  
+  NCondition<-3  
+  PSM<-2  
+  UP<-3  
+  CurveRsq<-0  
+  PValMelt<-0.05  
+  MeltLimit<-0  
+  RunSTRING<-"Yes"  
+  STRINGScore<-0.95  
+  RunPANTHER<-"Yes"  
+  Species<-9606  
+  PANTHERpvalue<-0.05  
+
+  InflectSSP::InflectSSP(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,MeltLimit,RunSTRING,STRINGScore,RunPANTHER,Species,PANTHERpvalue)  
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(InflectSSP)
+```
