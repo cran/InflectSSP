@@ -11,7 +11,7 @@
 #' Data_CurveFit2_Control<-CurveFit2(Data_Corrected_Control)}
 
 CurveFit2<-function(Data_Corrected){
-  #Determines number of temperatures and proteins for further analysis
+   #Determines number of temperatures and proteins for further analysis
   NumTemps<-as.data.frame(Data_Corrected$NumberTemps)[1,]
   NumProteins<-as.numeric(nrow(Data_Corrected))
   Protein<-1
@@ -75,7 +75,9 @@ CurveFit2<-function(Data_Corrected){
           scal_Const<-CurveFit2$m$getAllPars()[3]
           CurveFit2_Summary<-summary(CurveFit2)
           CurveSE<-CurveFit2_Summary$sigma
-          PVal<-data.frame(t(CurveFit2_Summary$parameters[,4]))
+          PVal_3PL<-data.frame(t(CurveFit2_Summary$parameters[,4]))
+          PVal<-cbind(PVal_3PL[,1],cbind(0,cbind(PVal_3PL[,2],PVal_3PL[,3])))
+          colnames(PVal)<-c("T_Const","B_Const","xmid_Const","scal_Const")
           Xmid_SE<-data.frame(CurveFit2_Summary$parameters[3,2])
           Data_CurveFit2Pars<-cbind(T_Const,cbind(B_Const,cbind(xmid_Const,scal_Const)))
           colnames(Data_CurveFit2Pars)<-paste(colnames(Data_CurveFit2Pars),"-Protein")
@@ -115,7 +117,9 @@ CurveFit2<-function(Data_Corrected){
         scal_Const<-CurveFit2$m$getAllPars()[3]
         CurveFit2_Summary<-summary(CurveFit2)
         CurveSE<-CurveFit2_Summary$sigma
-        PVal<-data.frame(t(CurveFit2_Summary$parameters[,4]))
+        PVal_3PL<-data.frame(t(CurveFit2_Summary$parameters[,4]))
+        PVal<-cbind(PVal_3PL[,1],cbind(0,cbind(PVal_3PL[,2],PVal_3PL[,3])))
+        colnames(PVal)<-c("T_Const","B_Const","xmid_Const","scal_Const")
         Xmid_SE<-data.frame(CurveFit2_Summary$parameters[3,2])
         Data_CurveFit2Pars<-cbind(T_Const,cbind(B_Const,cbind(xmid_Const,scal_Const)))
         colnames(Data_CurveFit2Pars)<-paste(colnames(Data_CurveFit2Pars),"-Protein")

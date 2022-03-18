@@ -18,7 +18,7 @@ CurveFit1<-function(Data_Quantified){
     xmid_Proteome_Fit<-Proteome_Abundance$coefficients[3]
     b_Proteome_Fit<-Proteome_Abundance$coefficients[4]
    } else {
-    Abundance<-nls(Median_Abundance ~ 0+((T_Proteome-0)/(1 + 10^(b_Proteome*(xmid_Proteome-log10(Temperature_C1)))))^1, data = Data_Quantified, start = c(T_Proteome=1,xmid_Proteome=1.7,b_Proteome=-10),nls.control(maxiter = 500,warnOnly = TRUE))
+    Abundance<-nls(Median_Abundance ~ 0+((T_Proteome-0)/(1 + 10^(b_Proteome*(xmid_Proteome-log10(Temperature)))))^1, data = Data_Quantified, start = c(T_Proteome=1,xmid_Proteome=1.7,b_Proteome=-10),nls.control(maxiter = 500,warnOnly = TRUE))
     Proteome_Abundance<-summary(Abundance)
     T_Proteome_Fit<-Proteome_Abundance$coefficients[1]
     B_Proteome_Fit<-0
