@@ -1,4 +1,4 @@
-8f2729eef6385848397e83c5007600df *DESCRIPTION
+6df93b5e24a2e40101bb4e9e2baa3b6b *DESCRIPTION
 0c0eff63732e455dc161f63f3b02c845 *NAMESPACE
 7abf25c0a9c2e1dd0e06a423ea5396e4 *R/Correction.R
 e9fd684b925b02f6fbac9d9d79bb1c6c *R/CurveFit1.R
@@ -8,13 +8,13 @@ e9fd684b925b02f6fbac9d9d79bb1c6c *R/CurveFit1.R
 5b5e55bd6c21b06bc9101608a92a90bc *R/MeltCalc.R
 86b726bf73b670140c0fb8fffb7966f8 *R/Normalize.R
 2f5f83d7bc465fcbc46ebdbfcd7f923d *R/Quantify.R
-fef13cec60dee446a2a14f865eecdf26 *R/ReportDataMelts.R
+b1d00923ca370ea731a6702063645673 *R/ReportDataMelts.R
 0763faa938b812ea274f1ab3b7c8a162 *R/ReportPANTHER.R
 073909cc149f35e9e04fa1bff9d050bd *R/ReportSTRING.R
 19318a39c9d1472176e5015a10002140 *build/vignette.rds
 930230a6376cbb3ffdf47914db2845bf *inst/doc/InflectSSPVignette.R
 31f5f23ce5e2b8d937bbce163537e997 *inst/doc/InflectSSPVignette.Rmd
-9568fb79530397517af4baa9f9a40d17 *inst/doc/InflectSSPVignette.html
+b259a8466293e325deda95abc51a1044 *inst/doc/InflectSSPVignette.html
 5c4f135e667fdd6c9463d0f873899fe7 *man/Correction.Rd
 fc0624f4744a302012c6062328864003 *man/CurveFit1.Rd
 97843407ec692688baa3f8cc26524c3a *man/CurveFit2.Rd
@@ -23,7 +23,7 @@ a1e77ee4effb4ef4ad7c7328e09ed981 *man/InflectSSP.Rd
 210419a22785759c45d145770cd3769a *man/MeltCalc.Rd
 44e130190c5d05643f7d2e7ebaa6ef0a *man/Normalize.Rd
 c88f0ae0abb1b1a1cc4cf1bdcd1e26d8 *man/Quantify.Rd
-21bb3d4dd955e92c78371bf9cc18b63f *man/ReportDataMelts.Rd
+5b75dd29c04600ef25710219de7c89c0 *man/ReportDataMelts.Rd
 a6696aa2b528b7dc376dad19ebcdf017 *man/ReportPANTHER.Rd
 cca8b7aea7929a20bc9f61f996d75d92 *man/ReportSTRING.Rd
 31f5f23ce5e2b8d937bbce163537e997 *vignettes/InflectSSPVignette.Rmd

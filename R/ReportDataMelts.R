@@ -16,7 +16,7 @@
 #' @importFrom graphics par
 #' @importFrom utils write.csv
 #' @export
-#' @return Excel files with summary of data along with melt curve plots for significant proteins
+#' @return files with summary of data along with melt curve plots for significant proteins
 #' @examples
 #'      \dontrun{
 #'      ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory)}
@@ -155,16 +155,6 @@ ReportDataMelts<-function(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condi
   grid(col = "lightgray", lty = "dotted",lwd = par("lwd"))
   dev.off()
 
-#Rank order plot that contains all proteins that have met R squared criteria. Significant proteins are in red and are those that meet p-value and melt shift criteria
-  pdf(paste(Directory,paste("Result Files","Melt_vs_Abundance.pdf",sep="/"),sep="/"))
-  Mean_Abundance<-(Data_Melts[,4]+Data_Melts[25+NumTemps*4])/2
-  plot(x = Mean_Abundance$`T1-Abundance-Condition`, y = Data_Melts$`Melt Shift`,pch = 2, frame = TRUE,xlab = "Mean Control & Condition Abundance at Lowest Temperature", ylab = "Melt Shift, Condition-Control (C)", cex=0.5)
-  Mean_Abundance_Data_Melts_GoodRsq_GoodpVal_GoodMelt<-(Data_Melts_GoodRsq_GoodpVal_GoodMelt[,4]+Data_Melts_GoodRsq_GoodpVal_GoodMelt[25+NumTemps*4])/2
-  points( Mean_Abundance_Data_Melts_GoodRsq_GoodpVal_GoodMelt$`T1-Abundance-Condition`,as.numeric(Data_Melts_GoodRsq_GoodpVal_GoodMelt$`Melt Shift`),col="red",pch=8,lty=1)
-  legend(0.7*max(Mean_Abundance$`T1-Abundance-Condition`),0.9*max(Data_Melts_GoodRsq_GoodpVal_GoodMelt$`Melt Shift`),legend=c("Melt","Significant Melt"), col=c("black","red"),pch=c(2,8),lty=c(1,2))
-  grid(col = "lightgray", lty = "dotted",lwd = par("lwd"))
-  dev.off()
-
 #Writes results to files in the directory chosen by the user.
 
   Data_Melts_worawdata<-cbind(Data_Melts$Accession,cbind(Data_Melts[,(4*NumTemps+7):(4*NumTemps+22)],Data_Melts[,(8*NumTemps+28):(ncol(Data_Melts))]))
@@ -175,7 +165,7 @@ ReportDataMelts<-function(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condi
 
   write.csv(Data_CurveFit2_Both, file = paste(Directory,paste("Result Files","AnalysisResults.csv",sep="/"),sep="/"))
   write.csv(Data_Melts_worawdata, file = paste(Directory,paste("Result Files","AllMeltShifts.csv",sep="/"),sep="/"))
-  write.csv(Data_Melts_GoodRsq_GoodpVal_GoodMelt_worawdata, file = paste(Directory,paste("Result Files","GoodQualityMeltShifts.csv",sep="/"),sep="/"))
+  write.csv(Data_Melts_GoodRsq_GoodpVal_GoodMelt_worawdata, file = paste(Directory,paste("Result Files","FilteredMeltShifts.csv",sep="/"),sep="/"))
 
 
 
