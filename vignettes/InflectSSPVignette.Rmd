@@ -1,7 +1,7 @@
 ---
 title: "InflectSSPVignette"
 author: "Neil McCracken"
-date: "01-October-2021"
+date: "02-February-2022"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{InflectSSPVignette}
@@ -15,7 +15,7 @@ vignette: >
 
 ## Introduction
 
-InflectSSP is a function that uses LC-MS data from a Thermal Proteome Profiling (TPP) experiment and user inputs to determine protein melt shifts across the proteome. There are multiple types of TPP experiments but the type that can be analyzed using this InflectSSP function is those where a single type of drug treatment or mutant cell line (Condition) is used with a single type of vehicle or wild type cell line (Control). Biological and technical replicate data sets can be analyzed by this program. These experiments also consist of those where a single gradient heat treatment (i.e. 25, 35, 40, 50, 55, 60) is used across all conditions and controls. The output of this program consists of melt curves for each protein along with summary files that include bioinformatic analysis. The output files are all saved to the Directory folder specified by the user and this is the same folder that the user saves the source input data files. The bioinformatic analysis that is generated includes overlay of melt shift data with STRING and PANTHER based annotations.
+InflectSSP is a function that uses LC-MS data from a Thermal Proteome Profiling (TPP) experiment and user inputs to determine protein melt shifts across the proteome. There are multiple types of TPP experiments but the type that can be analyzed using this InflectSSP function is those where a single type of drug treatment or mutant cell line (Condition) is used with a single type of vehicle or wild type cell line (Control). Biological and technical replicate data sets can be analyzed by this program. These experiments also consist of those where a single gradient heat treatment (i.e. 25, 35, 40, 50, 55, 60) is used across all conditions and controls. The output of this program consists of melt curves for each protein along with summary files that include bioinformatic analysis. The output files are all saved to the Directory folder specified by the user and this is the same folder that the user saves the source input data files. The bioinformatic analysis that is generated includes overlay of melt shift data with STRING based annotations.
 
 ## Program inputs
 
@@ -48,9 +48,7 @@ The inputs to the program consist of both MS Excel files along with user specifi
     * RunSTRING: A Yes or No input that indicates whether or not the STRING network evaluation is conducted by the program workflow.
     * STRINGScore: This is the STRING confidence score that is used by the program to determine which interactions reported by STRING are significant. This value is expressed as a decimal.
     * Species: Taxon number for the species. This is used by STRING and PANTHER. Example is 9606 for human.
-    * RunPANTHER: A Yes or No input that indicates whether or not the PANTHER GO term analysis is conducted by the program workflow.
-    * PANTHERpvalue: The decimal that corresponds to the p-value limit specified by PANTHER and which is used by the program to determine which GO terms to report. 
-
+  
 ## Program outputs
 
 The program reports the following in a folder titled "Result Files" in the Directory folder specified by the user:
@@ -61,13 +59,11 @@ The program reports the following in a folder titled "Result Files" in the Direc
   * Quality of fit for melt curves as measured by R squared
 * AllMeltShifts.csv. This file contains all melt shifts that pass PSM and UP criteria.
 * AnalysisResults.csv. This file contains data along with calculations for each protein that was identified as having sufficient quantity of PSM and UP
-* GoodQualityMeltShifts.csv: This file contains the melt shifts that pass all criteria entered by the user
-* Melt_vs_Abundance.pdf plot: This is a plot of melt shift vs. abundance for proteins that had good quality melts and met PSM/UP criteria. Red dots are those that are considered to be significant (melt shift p-value, melt shift magnitude) while black dots are those that do not meet these criteria.
+* FilteredMeltShifts.csv: This file contains the melt shifts that pass all criteria entered by the user
 * WaterfallPlot.pdf plot: This is a plot of melt shifts for all proteins that are numbered in order from lowest melt shift to highest melt shift. This plot includes proteins that had good quality melts and met PSM/UP criteria. Red dots are those that are considered to be significant (melt shift p-value, melt shift magnitude) while black dots are those that do not meet these criteria.
-* PANTHER_BP.svg: This file contains an image of a plot that on the y-axis includes Biological Process GO terms that correspond with the significant proteins in the analysis. On the x-axis are the melt shifts for the proteins. Each dot corresponds to a protein. The color of the dot and the intensity of the blue corresponds with the p-value in PANTHER and the size of the dot corresponds with the p-value for the melt shift. Dots that lie further to the right, are larger in diameter and are a darker shade of blue are more significant.
-* PANTHER_CC.svg: This file contains an image of a plot that on the y-axis includes Celluclar Component GO terms that correspond with the significant proteins in the analysis. See The BP description above for meaning of data in the plot.
-* PANTHER_MF.svg: This file contains an image of a plot that on the y-axis includes Molecular Function GO terms that correspond with the significant proteins in the analysis. See The BP description above for meaning of data in the plot.
 * STRINGNetwork.svg: This file contains and image of a network diagram that contains nodes for each protein that was observed to be significant in the analysis pipeline. The lines between each node indicate an interaction or relationship as identified by STRING according to the confidence limits specified by the user. The color of each node corresponds to the melt shift identified by the program.
+* NodeMelts.csv: This file summarizes the interactions used by the plotting function to generate the STRING diagram.
+* Proteins_With_Interactions.csv: This file summarizes the proteins that have both significant melt shifts and are reported to have interactions based on STRING.
 
 ## General program analysis description
 
@@ -82,7 +78,6 @@ The following functions are run by the InflectSSP function
  * MeltCalc: This function calculates the melt temperature for each protein condition and control using the inflection point in the curve. The melt shift is calculated using the melt temperatures for each protein (Condition-Control). The criteria including the p-value for the melt, melt magnitude and quality of fit for the curves is evaluated and documented.
  * ReportDataMelts: This function reports the melt shift related files
  * ReportSTRING: This function creates the STRING / melt shift network diagram
- * ReportPANTHER: This function creates the PANTHER / melt shfit network diagram
  
 ## Example code for execution of the function
 
@@ -100,7 +95,7 @@ The following functions are run by the InflectSSP function
   Species<-9606  
   PANTHERpvalue<-0.05  
 
-  InflectSSP::InflectSSP(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,MeltLimit,RunSTRING,STRINGScore,RunPANTHER,Species,PANTHERpvalue)  
+  InflectSSP::InflectSSP(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,MeltLimit,RunSTRING,STRINGScore,Species)  
 
 
 ```{r, include = FALSE}

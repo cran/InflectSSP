@@ -21,7 +21,7 @@ ReportDataMelts(
 \item{Directory}{directory where data is saved}
 }
 \value{
-files with summary of data along with melt curve plots for significant proteins
+Excel files with summary of data along with melt curve plots for significant proteins
 }
 \description{
 This function generates results from the Inflect function after applying criteria input from the user

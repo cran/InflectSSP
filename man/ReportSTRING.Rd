@@ -4,7 +4,7 @@
 \alias{ReportSTRING}
 \title{This function generates a STRING based network using the significant melt shifts from analysis}
 \usage{
-ReportSTRING(Data_Melts, STRINGScore, Directory, Species)
+ReportSTRING(Data_Melts, STRINGScore, Directory, Species, PValMeltFDR)
 }
 \arguments{
 \item{Data_Melts}{abundance and fit data for proteins that meet quality criteria in overall workflow}
@@ -14,6 +14,8 @@ ReportSTRING(Data_Melts, STRINGScore, Directory, Species)
 \item{Directory}{directory where results are saved}
 
 \item{Species}{species taxon number for bioinformatics search}
+
+\item{PValMeltFDR}{Whether or not the FDR correction for pvalue is used in designation of melts of interest}
 }
 \value{
 Excel files with summary of data along with melt curve plots for significant proteins
@@ -23,6 +25,6 @@ This function generates a STRING based network using the significant melt shifts
 }
 \examples{
 \dontrun{
-ReportSTRING(Data_Melts,STRINGScore,Directory,Species)
+ReportSTRING(Data_Melts,STRINGScore,Directory,Species,PValMeltFDR)
 }
 }

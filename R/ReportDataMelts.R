@@ -16,7 +16,7 @@
 #' @importFrom graphics par
 #' @importFrom utils write.csv
 #' @export
-#' @return files with summary of data along with melt curve plots for significant proteins
+#' @return Excel files with summary of data along with melt curve plots for significant proteins
 #' @examples
 #'      \dontrun{
 #'      ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory)}

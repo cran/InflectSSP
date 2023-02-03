@@ -101,8 +101,14 @@ repeat{
   }
 }
 
+
+
 Data_Melts_preordered<-cbind(Data_CurveFit2_Merged,Melt)
-Data_Melts<-as.data.frame(Data_Melts_preordered[order(Data_Melts_preordered$`Melt Shift`),])
+MeltCoefficient<-log10(Data_Melts_preordered$`PSM-Control`)*log10(Data_Melts_preordered$`Unique Peptides-Control`)*(Data_Melts_preordered$`Rsq-Control`)*(Data_Melts_preordered$`Rsq-Condition`)*(-log10(Data_Melts_preordered$`Melt p-value`))*abs(Data_Melts_preordered$`Melt Shift`)
+Data_Melts_preordered_2<-cbind(Data_Melts_preordered,MeltCoefficient)
+Data_Melts<-as.data.frame(Data_Melts_preordered_2[order(Data_Melts_preordered_2$`Melt Shift`),])
+
+
 
   return(Data_Melts)
 

@@ -3,6 +3,7 @@
 #' @param STRINGScore the STRING score that is used to determine whether an interaction is significant
 #' @param Directory directory where results are saved
 #' @param Species species taxon number for bioinformatics search
+#' @param PValMeltFDR Whether or not the FDR correction for pvalue is used in designation of melts of interest
 #' @importFrom grDevices pdf
 #' @importFrom httr GET
 #' @importFrom jsonlite fromJSON
@@ -16,11 +17,11 @@
 #' @return Excel files with summary of data along with melt curve plots for significant proteins
 #' @examples
 #' \dontrun{
-#' ReportSTRING(Data_Melts,STRINGScore,Directory,Species)
+#' ReportSTRING(Data_Melts,STRINGScore,Directory,Species,PValMeltFDR)
 #' }
 
 
-ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species){
+ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species,PValMeltFDR){
 
 
   if(NROW(Data_Melts)>0){
@@ -31,9 +32,21 @@ ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species){
 
     Accession<-as.data.frame(Data_Melts_GoodRsq_GoodpVal_GoodMelt$Accession)
     Melt<-as.data.frame(Data_Melts_GoodRsq_GoodpVal_GoodMelt$`Melt Shift`)
+
+    if(PValMeltFDR=="Yes"){
     Meltp<-Data_Melts_GoodRsq_GoodpVal_GoodMelt$Melt_pValue_FDRAdj
+    } else {
+      Meltp<-Data_Melts_GoodRsq_GoodpVal_GoodMelt$`Melt p-value`
+    }
+
     Accession_Melt<-as.data.frame(cbind(cbind(Accession,Melt),Meltp))
-    colnames(Accession_Melt)<-c("Accession","Melt","Melt_pValue_FDRAdj")
+
+    if(PValMeltFDR=="Yes"){
+      colnames(Accession_Melt)<-c("ID","Melt","Melt_pValue_FDRAdj")
+    } else {
+      colnames(Accession_Melt)<-c("ID","Melt","Melt_pValue")
+    }
+
 
     Count<-1
     repeat{
@@ -41,10 +54,12 @@ ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species){
         Output1<-httr::GET(paste(paste(paste(paste("https://string-db.org/api/json/interaction_partners?identifiers=",Accession[Count,],sep=""),"&species=",sep=""),Species,sep=""),"&limit=1000",sep=""))
         if(Output1$status_code==200){
           OutputAll<-jsonlite::fromJSON(rawToChar(Output1$content))
+          Accession_Uniprot<-as.data.frame(Accession_Melt[Accession==Accession[Count,],1])
           MeltValue<-as.data.frame(Accession_Melt[Accession==Accession[Count,],2])
           MeltpValue<-as.data.frame(Accession_Melt[Accession==Accession[Count,],3])
           OutputAll[,14]<-MeltValue[1,1]
           OutputAll[,15]<-MeltpValue[1,1]
+          OutputAll[,16]<-Accession_Uniprot[1,1]
         } else {
 
         }
@@ -53,12 +68,15 @@ ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species){
         Output<-httr::GET(paste(paste(paste(paste("https://string-db.org/api/json/interaction_partners?identifiers=",Accession[Count,],sep=""),"&species=",sep=""),Species,sep=""),"&limit=1000",sep=""))
         if(Output$status_code==200){
           Output_values <- jsonlite::fromJSON(rawToChar(Output$content))
-          MeltValue<-as.data.frame(Accession_Melt[Accession==Accession[Count,],2])
-          MeltpValue<-as.data.frame(Accession_Melt[Accession==Accession[Count,],3])
-          Output_values[,14]<-MeltValue[1,1]
-          Output_values[,15]<-MeltpValue[1,1]
-          OutputAll<-rbind(OutputAll,Output_values)
-
+          if(NROW(Output_values)>0){
+            Accession_Uniprot<-as.data.frame(Accession_Melt[Accession==Accession[Count,],1])
+            MeltValue<-as.data.frame(Accession_Melt[Accession==Accession[Count,],2])
+            MeltpValue<-as.data.frame(Accession_Melt[Accession==Accession[Count,],3])
+            Output_values[,14]<-MeltValue[1,1]
+            Output_values[,15]<-MeltpValue[1,1]
+            Output_values[,16]<-Accession_Uniprot[1,1]
+            OutputAll<-rbind(OutputAll,Output_values)
+          }
         } else {
 
         }
@@ -74,14 +92,14 @@ ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species){
 
     if(NROW(OutputAll_scoresubset)>0){
       Contains1<-OutputAll_scoresubset[,4] %in% OutputAll_scoresubset[,3]
-      OutputAll_scoresubset[Contains1,16]<-"Yes"
-      OutputAll_scoresubset_2<-subset(OutputAll_scoresubset,OutputAll_scoresubset[,16]=="Yes")
+      OutputAll_scoresubset[Contains1,17]<-"Yes"
+      OutputAll_scoresubset_2<-subset(OutputAll_scoresubset,OutputAll_scoresubset[,17]=="Yes")
       if(NROW(OutputAll_scoresubset_2)>0){
 
         Contains2<-OutputAll_scoresubset_2[,3] %in% OutputAll_scoresubset_2[,4]
-        OutputAll_scoresubset_2[Contains2,17]<-"Yes"
+        OutputAll_scoresubset_2[Contains2,18]<-"Yes"
 
-        OutputAll_Interactors<-subset(OutputAll_scoresubset_2,OutputAll_scoresubset_2[,17]=="Yes")
+        OutputAll_Interactors<-subset(OutputAll_scoresubset_2,OutputAll_scoresubset_2[,18]=="Yes")
 
         OutputAllMatrix<-tapply(OutputAll_Interactors$score, OutputAll_Interactors[c("preferredName_A", "preferredName_B")], mean)
         OutputAllMatrix[is.na(OutputAllMatrix)] <- 0
@@ -91,11 +109,17 @@ ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species){
         net<-network::network(OutputAllMatrix, directed=FALSE)
 
         Nodes = as.data.frame(unique(OutputAll_Interactors$preferredName_A))
-        colnames(Nodes)<-"Accession"
-        OutputAll_Interactors_2 <- unique(cbind(cbind(OutputAll_Interactors[,3],OutputAll_Interactors[,14]),OutputAll_Interactors[,15]))
-        colnames(OutputAll_Interactors_2)<-c("Accession","Melt","MeltpValue")
+        colnames(Nodes)<-"ID"
+        OutputAll_Interactors_2 <- unique(cbind(cbind(cbind(OutputAll_Interactors[,16],OutputAll_Interactors[,3]),OutputAll_Interactors[,14]),OutputAll_Interactors[,15]))
 
-        NodeMelts<-as.data.frame(merge(Nodes,OutputAll_Interactors_2,by="Accession"))
+        if(PValMeltFDR=="Yes"){
+          colnames(OutputAll_Interactors_2)<-c("Protein_A_Accession","ID","Melt","MeltpValue_FDR")
+        } else {
+          colnames(OutputAll_Interactors_2)<-c("Protein_A_Accession","ID","Melt","MeltpValue")
+        }
+
+
+        NodeMelts<-as.data.frame(merge(Nodes,OutputAll_Interactors_2,by="ID"))
         network::`%v%`(net,"MeltShift") <- round(as.numeric(NodeMelts$Melt),2)
 
 
@@ -106,7 +130,7 @@ ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species){
 
 
         write.csv(NodeMelts, file = paste(Directory,paste("Result Files","NodeMelts.csv",sep="/"),sep="/"))
-
+        write.csv(OutputAll_Interactors_2, file = paste(Directory,paste("Result Files","Proteins_With_Interactions.csv",sep="/"),sep="/"))
 
 
       } else {

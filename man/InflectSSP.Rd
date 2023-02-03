@@ -16,9 +16,7 @@ InflectSSP(
   MeltLimit,
   RunSTRING,
   STRINGScore,
-  RunPANTHER,
-  Species,
-  PANTHERpvalue
+  Species
 )
 }
 \arguments{
@@ -44,11 +42,7 @@ InflectSSP(
 
 \item{STRINGScore}{the score to be used in the STRING analysis}
 
-\item{RunPANTHER}{whether or not the PANTHER function will be run or not in the analysis}
-
 \item{Species}{species number for bioinformatics search}
-
-\item{PANTHERpvalue}{p-value for PANTHER analysis}
 }
 \value{
 the proteins that have significant melt shifts from an experiment
@@ -69,12 +63,10 @@ This function is the primary function that calls other functions in the program.
      MeltLimit<-3
      RunSTRING<-"Yes"
      STRINGScore<-0.99
-     RunPANTHER<-"Yes"
      Species<-9606
-     PANTHERpvalue<-0.05
      InflectSSP(Directory,NControl,
      NCondition,PSM,UP,CurveRsq,PValMelt,PValMeltFDR,
-     MeltLimit,RunSTRING,STRINGScore,RunPANTHER,
-     Species,PANTHERpvalue)
+     MeltLimit,RunSTRING,STRINGScore,
+     Species)
      }
 }

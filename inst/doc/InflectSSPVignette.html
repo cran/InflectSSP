@@ -30,23 +30,23 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
 <style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
@@ -64,55 +64,54 @@ pre > code.sourceCode { white-space: pre-wrap; }
 pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
-  { counter-reset: source-line 0; }
+{ counter-reset: source-line 0; }
 pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
+{ position: relative; left: -4em; counter-increment: source-line; }
 pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
 div.sourceCode
-  {   }
+{ }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -121,13 +120,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -333,7 +339,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">InflectSSPVignette</h1>
 <h4 class="author">Neil McCracken</h4>
-<h4 class="date">01-October-2021</h4>
+<h4 class="date">02-February-2022</h4>
 
 
 
@@ -355,8 +361,8 @@ curves for each protein along with summary files that include
 bioinformatic analysis. The output files are all saved to the Directory
 folder specified by the user and this is the same folder that the user
 saves the source input data files. The bioinformatic analysis that is
-generated includes overlay of melt shift data with STRING and PANTHER
-based annotations.</p>
+generated includes overlay of melt shift data with STRING based
+annotations.</p>
 </div>
 <div id="program-inputs" class="section level2">
 <h2>Program inputs</h2>
@@ -446,11 +452,6 @@ program to determine which interactions reported by STRING are
 significant. This value is expressed as a decimal.</li>
 <li>Species: Taxon number for the species. This is used by STRING and
 PANTHER. Example is 9606 for human.</li>
-<li>RunPANTHER: A Yes or No input that indicates whether or not the
-PANTHER GO term analysis is conducted by the program workflow.</li>
-<li>PANTHERpvalue: The decimal that corresponds to the p-value limit
-specified by PANTHER and which is used by the program to determine which
-GO terms to report.</li>
 </ul></li>
 </ul>
 </div>
@@ -471,41 +472,25 @@ and UP criteria.</li>
 <li>AnalysisResults.csv. This file contains data along with calculations
 for each protein that was identified as having sufficient quantity of
 PSM and UP</li>
-<li>GoodQualityMeltShifts.csv: This file contains the melt shifts that
-pass all criteria entered by the user</li>
-<li>Melt_vs_Abundance.pdf plot: This is a plot of melt shift
-vs. abundance for proteins that had good quality melts and met PSM/UP
-criteria. Red dots are those that are considered to be significant (melt
-shift p-value, melt shift magnitude) while black dots are those that do
-not meet these criteria.</li>
+<li>FilteredMeltShifts.csv: This file contains the melt shifts that pass
+all criteria entered by the user</li>
 <li>WaterfallPlot.pdf plot: This is a plot of melt shifts for all
 proteins that are numbered in order from lowest melt shift to highest
 melt shift. This plot includes proteins that had good quality melts and
 met PSM/UP criteria. Red dots are those that are considered to be
 significant (melt shift p-value, melt shift magnitude) while black dots
 are those that do not meet these criteria.</li>
-<li>PANTHER_BP.svg: This file contains an image of a plot that on the
-y-axis includes Biological Process GO terms that correspond with the
-significant proteins in the analysis. On the x-axis are the melt shifts
-for the proteins. Each dot corresponds to a protein. The color of the
-dot and the intensity of the blue corresponds with the p-value in
-PANTHER and the size of the dot corresponds with the p-value for the
-melt shift. Dots that lie further to the right, are larger in diameter
-and are a darker shade of blue are more significant.</li>
-<li>PANTHER_CC.svg: This file contains an image of a plot that on the
-y-axis includes Celluclar Component GO terms that correspond with the
-significant proteins in the analysis. See The BP description above for
-meaning of data in the plot.</li>
-<li>PANTHER_MF.svg: This file contains an image of a plot that on the
-y-axis includes Molecular Function GO terms that correspond with the
-significant proteins in the analysis. See The BP description above for
-meaning of data in the plot.</li>
 <li>STRINGNetwork.svg: This file contains and image of a network diagram
 that contains nodes for each protein that was observed to be significant
 in the analysis pipeline. The lines between each node indicate an
 interaction or relationship as identified by STRING according to the
 confidence limits specified by the user. The color of each node
 corresponds to the melt shift identified by the program.</li>
+<li>NodeMelts.csv: This file summarizes the interactions used by the
+plotting function to generate the STRING diagram.</li>
+<li>Proteins_With_Interactions.csv: This file summarizes the proteins
+that have both significant melt shifts and are reported to have
+interactions based on STRING.</li>
 </ul>
 </div>
 <div id="general-program-analysis-description" class="section level2">
@@ -546,8 +531,6 @@ documented.</li>
 files</li>
 <li>ReportSTRING: This function creates the STRING / melt shift network
 diagram</li>
-<li>ReportPANTHER: This function creates the PANTHER / melt shfit
-network diagram</li>
 </ul>
 </div>
 <div id="example-code-for-execution-of-the-function" class="section level2">
@@ -565,7 +548,7 @@ STRINGScore&lt;-0.95<br />
 RunPANTHER&lt;-“Yes”<br />
 Species&lt;-9606<br />
 PANTHERpvalue&lt;-0.05</p>
-<p>InflectSSP::InflectSSP(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,MeltLimit,RunSTRING,STRINGScore,RunPANTHER,Species,PANTHERpvalue)</p>
+<p>InflectSSP::InflectSSP(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,MeltLimit,RunSTRING,STRINGScore,Species)</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(InflectSSP)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Registered S3 method overwritten by &#39;GGally&#39;:</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   method from   </span></span>

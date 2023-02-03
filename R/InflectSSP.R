@@ -9,9 +9,7 @@
 #' @param PValMeltFDR Whether or not the FDR correction for pvalue is used in designation of melts of interest
 #' @param RunSTRING whether or not the STRING function will be run or not in the analysis
 #' @param STRINGScore the score to be used in the STRING analysis
-#' @param RunPANTHER whether or not the PANTHER function will be run or not in the analysis
 #' @param Species species number for bioinformatics search
-#' @param PANTHERpvalue p-value for PANTHER analysis
 #' @param MeltLimit the melt shift temperature limit used for determining which proteins to report as significant
 #' @importFrom readxl read_xlsx
 #' @importFrom xlsx write.xlsx
@@ -42,16 +40,14 @@
 #'      MeltLimit<-3
 #'      RunSTRING<-"Yes"
 #'      STRINGScore<-0.99
-#'      RunPANTHER<-"Yes"
 #'      Species<-9606
-#'      PANTHERpvalue<-0.05
 #'      InflectSSP(Directory,NControl,
 #'      NCondition,PSM,UP,CurveRsq,PValMelt,PValMeltFDR,
-#'      MeltLimit,RunSTRING,STRINGScore,RunPANTHER,
-#'      Species,PANTHERpvalue)
+#'      MeltLimit,RunSTRING,STRINGScore,
+#'      Species)
 #'      }
 
-InflectSSP<-function(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,PValMeltFDR,MeltLimit,RunSTRING,STRINGScore,RunPANTHER,Species,PANTHERpvalue){
+InflectSSP<-function(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,PValMeltFDR,MeltLimit,RunSTRING,STRINGScore,Species){
   Data_Imported<-Import(NControl,NCondition,Directory)
   message("Import Complete, Data Normalization Pending")
   Data_Normalized<-Normalize(Data_Imported)
@@ -76,13 +72,8 @@ InflectSSP<-function(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,PVal
   message("Melt Shift Results Reporting Complete")
   if(RunSTRING=="Yes"){
   message("STRING Reporting Pending")
-  ReportSTRING(Data_Melts,STRINGScore,Directory,Species)
+  ReportSTRING(Data_Melts,STRINGScore,Directory,Species,PValMeltFDR)
   message("STRING Reporting Complete")
-  }
-  if(RunPANTHER=="Yes"){
-    message("PANTHER Reporting Pending")
-    ReportPANTHER(Data_Melts,Directory,Species,PANTHERpvalue,PValMeltFDR)
-    message("PANTHER Reporting Complete")
   }
 
 }
