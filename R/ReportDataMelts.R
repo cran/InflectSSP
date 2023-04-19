@@ -3,6 +3,7 @@
 #' @param Data_CurveFit2_Control the curve fit data from the Curve Fit 2 function
 #' @param Data_CurveFit2_Condition the curve fit data from the Curve Fit 2 function
 #' @param Directory directory where data is saved
+#' @param PValMelt the criteria for the melt shift p-values
 #' @importFrom xlsx write.xlsx
 #' @importFrom grDevices dev.off
 #' @importFrom graphics lines
@@ -15,13 +16,17 @@
 #' @importFrom graphics grid
 #' @importFrom graphics par
 #' @importFrom utils write.csv
+#' @importFrom ggplot2 geom_dotplot
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 ggsave
 #' @export
 #' @return Excel files with summary of data along with melt curve plots for significant proteins
 #' @examples
 #'      \dontrun{
-#'      ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory)}
+#'      ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory,PValMelt)}
 
-ReportDataMelts<-function(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory){
+ReportDataMelts<-function(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory,PValMelt){
 
 #Subsets proteins based on whether they meet Rsq, pValue and melt limit criteria
   row.names(Data_Melts) <- 1:nrow(Data_Melts)
@@ -154,6 +159,27 @@ ReportDataMelts<-function(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condi
   legend(0,0.9*max(Data_Melts$`Melt Shift`),legend=c("Melt","Melt of Interest"), col=c("black","red"),pch=c(2,8),lty=c(1,2))
   grid(col = "lightgray", lty = "dotted",lwd = par("lwd"))
   dev.off()
+
+
+#Melt Coefficient Plot
+  Melt_pvalue<-NULL
+  Melt_Coefficient<-NULL
+  Data_Melts_LowPvalue<-Data_Melts[Data_Melts$`Good Melt p-value` == 'Yes',]
+  Coef_vs_Pvalue_Low<-cbind(Data_Melts_LowPvalue$MeltCoefficient,paste("<",PValMelt))
+  Data_Melts_HighPvalue<-Data_Melts[Data_Melts$`Good Melt p-value` == 'No',]
+  Coef_vs_Pvalue_High<-cbind(Data_Melts_HighPvalue$MeltCoefficient,paste(">=",PValMelt))
+  Coef_vs_Pvalue<-as.data.frame(rbind(Coef_vs_Pvalue_Low,Coef_vs_Pvalue_High))
+  colnames(Coef_vs_Pvalue) <- c("Melt_Coefficient","Melt_pvalue")
+  Coef_vs_Pvalue$Melt_pvalue<-as.factor(Coef_vs_Pvalue$Melt_pvalue)
+  Coef_vs_Pvalue$Melt_Coefficient<-as.numeric(Coef_vs_Pvalue$Melt_Coefficient)
+
+
+  Coefplot<-ggplot(Coef_vs_Pvalue, aes(x=Melt_pvalue, y=Melt_Coefficient)) +
+  geom_dotplot(binaxis='y', stackdir='center',binwidth=0.8,position="jitter",stackratio=0.0005, dotsize=2,aes(colour = Melt_pvalue))
+  Coefplot
+  ggplot2::ggsave(paste(Directory,paste("Result Files","MeltCoefficientPlot.svg",sep="/"),sep="/"))
+
+
 
 #Writes results to files in the directory chosen by the user.
 

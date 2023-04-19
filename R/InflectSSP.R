@@ -68,7 +68,7 @@ InflectSSP<-function(Directory,NControl,NCondition,PSM,UP,CurveRsq,PValMelt,PVal
   message("Protein Melt Curve Fitting Complete, Protein Melt Shift Calculation Pending")
   Data_Melts<-MeltCalc(Directory,Data_CurveFit2_Complete_Unique,CurveRsq,PValMelt,MeltLimit,PValMeltFDR)
   message("Protein Melt Shift Calculation Complete, Melt Shift Results Reporting Pending")
-  ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory)
+  ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory,PValMelt)
   message("Melt Shift Results Reporting Complete")
   if(RunSTRING=="Yes"){
   message("STRING Reporting Pending")

@@ -129,7 +129,7 @@ ReportSTRING<-function(Data_Melts,STRINGScore,Directory,Species,PValMeltFDR){
         ggplot2::ggsave(paste(Directory,paste("Result Files","STRINGNetwork.svg",sep="/"),sep="/"))
 
 
-        write.csv(NodeMelts, file = paste(Directory,paste("Result Files","NodeMelts.csv",sep="/"),sep="/"))
+
         write.csv(OutputAll_Interactors_2, file = paste(Directory,paste("Result Files","Proteins_With_Interactions.csv",sep="/"),sep="/"))
 
 

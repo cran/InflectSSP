@@ -8,7 +8,8 @@ ReportDataMelts(
   Data_Melts,
   Data_CurveFit2_Control,
   Data_CurveFit2_Condition,
-  Directory
+  Directory,
+  PValMelt
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ ReportDataMelts(
 \item{Data_CurveFit2_Condition}{the curve fit data from the Curve Fit 2 function}
 
 \item{Directory}{directory where data is saved}
+
+\item{PValMelt}{the criteria for the melt shift p-values}
 }
 \value{
 Excel files with summary of data along with melt curve plots for significant proteins
@@ -28,5 +31,5 @@ This function generates results from the Inflect function after applying criteri
 }
 \examples{
      \dontrun{
-     ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory)}
+     ReportDataMelts(Data_Melts,Data_CurveFit2_Control,Data_CurveFit2_Condition,Directory,PValMelt)}
 }
